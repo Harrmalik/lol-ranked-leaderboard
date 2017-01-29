@@ -30,6 +30,7 @@ router.get('/getRankings', function(req, res, next) {
                   leaguePoints: summoner[0].entries[0].leaguePoints,
                   wins: summoner[0].entries[0].wins,
                   losses: summoner[0].entries[0].losses,
+                  winrate: Math.round(summoner[0].entries[0].wins/(summoner[0].entries[0].losses + summoner[0].entries[0].wins) * 100),
                   points: calculatePoints(summoner[0].tier, summoner[0].entries[0].division, summoner[0].entries[0].leaguePoints)
               };
             //   let recentGamesUrl = `${api}v1.3/game/by-summoner/${key}/recent?api_key=${leagueApiKey}`;

@@ -54,7 +54,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _Row = __webpack_require__(179);
+	var _Row = __webpack_require__(178);
 
 	var _Row2 = _interopRequireDefault(_Row);
 
@@ -64,7 +64,8 @@
 	    displayName: 'App',
 	    getInitialState: function getInitialState() {
 	        return {
-	            data: []
+	            data: [],
+	            rank: 0
 	        };
 	    },
 	    componentDidMount: function componentDidMount() {
@@ -77,14 +78,11 @@
 	            component.setState({ data: data });
 	        });
 	    },
-	    eachSummoner: function eachSummoner(summoner) {
+	    eachSummoner: function eachSummoner(summoner, index) {
 	        return _react2.default.createElement(_Row2.default, {
 	            key: summoner.name,
-	            name: summoner.name,
-	            tier: summoner.tier,
-	            division: summoner.division,
-	            points: summoner.points,
-	            leaguePoints: summoner.leaguePoints });
+	            summoner: summoner,
+	            rank: index + 1 });
 	    },
 	    render: function render() {
 	        return _react2.default.createElement(
@@ -95,7 +93,7 @@
 	                { className: 'ui container' },
 	                _react2.default.createElement(
 	                    'table',
-	                    { className: 'ui very basic collapsing celled table' },
+	                    { className: 'ui striped inverted table' },
 	                    _react2.default.createElement(
 	                        'thead',
 	                        null,
@@ -105,12 +103,37 @@
 	                            _react2.default.createElement(
 	                                'th',
 	                                null,
+	                                'Rank'
+	                            ),
+	                            _react2.default.createElement(
+	                                'th',
+	                                null,
 	                                'Summoner'
 	                            ),
 	                            _react2.default.createElement(
 	                                'th',
 	                                null,
-	                                'League Points'
+	                                'Tier/Division'
+	                            ),
+	                            _react2.default.createElement(
+	                                'th',
+	                                null,
+	                                'Points'
+	                            ),
+	                            _react2.default.createElement(
+	                                'th',
+	                                null,
+	                                'Winrate'
+	                            ),
+	                            _react2.default.createElement(
+	                                'th',
+	                                null,
+	                                'Wins'
+	                            ),
+	                            _react2.default.createElement(
+	                                'th',
+	                                null,
+	                                'Losses'
 	                            )
 	                        )
 	                    ),
@@ -21563,8 +21586,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 178 */,
-/* 179 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -21585,16 +21607,21 @@
 	    return {};
 	  },
 	  render: function render() {
-	    var summoner = this.props;
+	    var summoner = this.props.summoner;
 	    return _react2.default.createElement(
 	      "tr",
 	      null,
 	      _react2.default.createElement(
 	        "td",
 	        null,
+	        this.props.rank
+	      ),
+	      _react2.default.createElement(
+	        "td",
+	        null,
 	        _react2.default.createElement(
 	          "h4",
-	          { className: "ui image header" },
+	          { className: "ui image header inverted" },
 	          _react2.default.createElement("img", { src: "/images/avatar2/small/lena.png", className: "ui mini rounded image" }),
 	          _react2.default.createElement(
 	            "div",
@@ -21603,7 +21630,7 @@
 	            _react2.default.createElement(
 	              "div",
 	              { className: "sub header" },
-	              summoner.tier + ' ' + summoner.division
+	              summoner.divisionName
 	            )
 	          )
 	        )
@@ -21611,7 +21638,28 @@
 	      _react2.default.createElement(
 	        "td",
 	        null,
+	        summoner.tier + ' ' + summoner.division
+	      ),
+	      _react2.default.createElement(
+	        "td",
+	        null,
 	        summoner.points
+	      ),
+	      _react2.default.createElement(
+	        "td",
+	        null,
+	        summoner.winrate,
+	        "%"
+	      ),
+	      _react2.default.createElement(
+	        "td",
+	        null,
+	        summoner.wins
+	      ),
+	      _react2.default.createElement(
+	        "td",
+	        null,
+	        summoner.losses
 	      )
 	    );
 	  }
