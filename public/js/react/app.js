@@ -83,6 +83,7 @@
 	            name: summoner.name,
 	            tier: summoner.tier,
 	            division: summoner.division,
+	            points: summoner.points,
 	            leaguePoints: summoner.leaguePoints });
 	    },
 	    render: function render() {
@@ -21610,7 +21611,7 @@
 	      _react2.default.createElement(
 	        "td",
 	        null,
-	        summoner.leaguePoints
+	        summoner.points
 	      )
 	    );
 	  }

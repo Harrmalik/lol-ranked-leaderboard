@@ -20,7 +20,7 @@ var Row = React.createClass({
                 </div>
               </h4></td>
               <td>
-                {summoner.leaguePoints}
+                {summoner.points}
               </td>
             </tr>
         )

@@ -1,9 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+var rp = require('request-promise');
+var Promise = require('bluebird');
 var _ = require('lodash');
 var summoners = require('../data/summoners.js');
 var leagueApiKey = process.env.leagueApiKey;
+var api = 'https://na.api.pvp.net/api/lol/na/'
 
 let summonersIds = '';
 _.forEach(summoners, function(summoner) {
@@ -13,24 +16,83 @@ _.forEach(summoners, function(summoner) {
 summonersIds = summonersIds.slice(0, -1);
 
 router.get('/getRankings', function(req, res, next) {
-    let url =`https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/${summonersIds}/entry?api_key=${leagueApiKey}`
-    request.get(url, function (error, response, body) {
+    let leagueUrl =`${api}v2.5/league/by-summoner/${summonersIds}/entry?api_key=${leagueApiKey}`;
+    request.get(leagueUrl, function (error, response, body) {
       if (!error && response.statusCode == 200) {
           let data = JSON.parse(body);
-          let summoners = _.map(data, function(summoner) {
+          let summoners = _.map(data, function(summoner, key) {
+              var demo;
               return {
                   tier: summoner[0].tier,
                   name: summoner[0].entries[0].playerOrTeamName,
+                  divisionName: summoner[0].name,
                   division: summoner[0].entries[0].division,
                   leaguePoints: summoner[0].entries[0].leaguePoints,
+                  wins: summoner[0].entries[0].wins,
+                  losses: summoner[0].entries[0].losses,
+                  points: calculatePoints(summoner[0].tier, summoner[0].entries[0].division, summoner[0].entries[0].leaguePoints)
               };
+            //   let recentGamesUrl = `${api}v1.3/game/by-summoner/${key}/recent?api_key=${leagueApiKey}`;
+            //   rp(recentGamesUrl)
+            //     .then((data) => {
+            //         console.log('rp');
+            //         demo = {
+            //             tier: summoner[0].tier,
+            //             name: summoner[0].entries[0].playerOrTeamName,
+            //             divisionName: summoner[0].name,
+            //             division: summoner[0].entries[0].division,
+            //             leaguePoints: summoner[0].entries[0].leaguePoints,
+            //             wins: summoner[0].entries[0].wins,
+            //             losses: summoner[0].entries[0].losses
+            //         };
+            //         return demo
+            //     });
           });
 
-        res.json(summoners);
+        res.json(summoners.sort(function(a, b) {
+            return b.points - a.points;
+        }));
     } else {
         res.send(response);
     }
     });
 });
+
+var calculatePoints = (tier, division, lp) => {
+    console.log(tier);
+    let points = 0;
+    switch (tier) {
+        case 'GOLD':
+            points += 1000;
+            break;
+        case 'SILVER':
+            points += 500;
+            break;
+        case 'BRONZE':
+            points += 100;
+            break;
+    }
+
+    switch (division) {
+        case 'I':
+            points += 500;
+            break;
+        case 'II':
+            points += 400;
+            break;
+        case 'III':
+            points += 300;
+            break;
+        case 'IV':
+            points += 200;
+            break;
+        case 'V':
+            points += 100;
+            break;
+    }
+
+    points += lp;
+    return points;
+}
 
 module.exports = router;

@@ -25,6 +25,7 @@ var App = React.createClass({
                 name={summoner.name}
                 tier={summoner.tier}
                 division={summoner.division}
+                points={summoner.points}
                 leaguePoints={summoner.leaguePoints} />
         )
     },
