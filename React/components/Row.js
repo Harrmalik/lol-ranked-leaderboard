@@ -8,6 +8,7 @@ var Row = React.createClass({
     },
     render() {
         let summoner = this.props.summoner
+        console.log(summoner);
         return (
             <tr>
                 <td>{this.props.rank}</td>
@@ -15,17 +16,17 @@ var Row = React.createClass({
                 <h4 className="ui image header inverted">
                   <img src="/images/avatar2/small/lena.png" className="ui mini rounded image"></img>
                   <div className="content">
-                    {summoner.name}
+                    {summoner.summonerName}
                     <div className="sub header">
                         {summoner.divisionName}
                   </div>
                 </div>
               </h4></td>
               <td>
-                {summoner.tier + ' ' + summoner.division}
+                {summoner.tier + ' ' + summoner.rank}
               </td>
               <td>
-                {summoner.points}
+                {summoner.leaguePoints}
               </td>
               <td>
                {summoner.winrate}%
