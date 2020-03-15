@@ -1,0 +1,34 @@
+#app {
+  text-align: center;
+  display: flex;
+  height: 100vh;
+}
+
+#vs-png {
+  z-index: 1;
+  position: absolute;
+  height: 200px;
+  left: 43vw;
+  top: 40vh;
+}
+
+.player-card {
+  height: 100%;
+  flex: 1;
+  border: 1px solid black;
+}
+
+.player-card .segment {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: -30em;
+  background: rgba(255,255,255,.1);
+}
+
+.player-card .segment img {
+  display: block;
+  width: 150px;
+  justify-content: center;
+  margin: auto;
+}
